@@ -49,6 +49,8 @@ def clean_data(df):
         # convert column from string to numeric
         categories[column] = pd.to_numeric(categories[column])
 
+    # Replace 2's with 1'
+    categories.replace(2, 1, inplace=True)
     # Replace categories column in df with new category columns
     df.drop('categories', axis=1, inplace=True)
     # concatenate the original dataframe with the new `categories` dataframe
