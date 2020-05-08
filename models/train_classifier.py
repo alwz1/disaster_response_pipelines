@@ -12,21 +12,18 @@ import re
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.pipeline import FeatureUnion
-from sklearn.ensemble import AdaBoostClassifier
 from xgboost import XGBClassifier
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
-from sklearn.model_selection import GridSearchCV
 
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-from nltk import PorterStemmer
 
 nltk.download(['words', 'punkt', 'stopwords',
                'averaged_perceptron_tagger',
@@ -34,6 +31,14 @@ nltk.download(['words', 'punkt', 'stopwords',
 
 
 def load_data(database_filepath):
+    """
+        Read table 'message_category' from 'DisasterResponse.db'
+        Args: database_filepath
+        Returns:
+            X: ndarray of messages
+            Y: ndarray of category labels
+            category_names
+    """
     # Create connection to the database
     engine = create_engine('sqlite:///'+database_filepath)
     # Read message_category table from the database
@@ -49,47 +54,81 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    """
+        1. Replace url in the text with 'urlplaceholder'
+        2. Remove punctuations and use lower cases
+        3. Remove stopwords and lemmatize tokens
+
+        Args: text
+        Returns: cleaned tokens of text
+    """
 
     url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
-    # replace urls with placeholder
+    detected_urls = re.findall(url_regex, text)
+
+    for url in detected_urls:
+        text = text.replace(url, "urlplaceholder")
+
+    text = re.sub(r"[^a-zA-Z0-9]", " ", text.lower())
+    tokens = word_tokenize(text)
+
+    stop_words = stopwords.words("english")
+    lemmatizer = WordNetLemmatizer()
+
+    clean_tokens = [lemmatizer.lemmatize(tok)
+                    for tok in tokens if tok not in stop_words]
+
+    return clean_tokens
+
+
+# Add a customer transformer
+
+def tokenize_2(text):
+
+    url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
     detected_urls = re.findall(url_regex, text)
     for url in detected_urls:
         text = text.replace(url, "urlplaceholder")
 
-    # convert to lowercase and remove punctuation characters
-    text = re.sub(r"[^a-zA-Z0-9]", " ", text.lower())
-    # tokenize text
     tokens = word_tokenize(text)
-    # remove stop words
-    tokens = [w for w in tokens if w not in stopwords.words("english")]
-    # reduce words to their root form
-    lemmed = [WordNetLemmatizer().lemmatize(w) for w in tokens]
-    # lemmatize verbs by specifying pos
-    lemmed_tokens = [WordNetLemmatizer().lemmatize(w, pos='v')
-                     for w in lemmed]
-    # stem tokens
-    cleaned_tokens = [PorterStemmer().stem(w) for w in lemmed_tokens]
+    lemmatizer = WordNetLemmatizer()
+    clean_tokens = [lemmatizer.lemmatize(
+        tok).lower().strip() for tok in tokens]
 
-    return cleaned_tokens
+    return clean_tokens
 
 
-# Count the number of tokens
-class TextLengthExtractor(BaseEstimator, TransformerMixin):
+class StartingVerbExtractor(BaseEstimator, TransformerMixin):
 
-    def text_len_count(self, text):
-        text_length = len(tokenize(text))
+    def starting_verb(self, text):
+        # tokenize by sentences
+        sentence_list = nltk.sent_tokenize(text)
 
-        return text_length
+        for sentence in sentence_list:
+            # tokenize each sentence into words and tag part of speech
+            pos_tags = nltk.pos_tag(tokenize_2(sentence))
+            # index pos_tags to get the first word and part of speech tag
+            first_word, first_tag = pos_tags[0]
+
+            # return true if the first word is an appropriate verb or RT for retweet
+            if first_tag in ['VB', 'VBP'] or first_word == 'RT':
+                return True
+        return False
 
     def fit(self, x, y=None):
         return self
 
     def transform(self, X):
-        X_text_len = pd.Series(X).apply(self.text_len_count)
-        return pd.DataFrame(X_text_len)
+        X_tagged = pd.Series(X).apply(self.starting_verb)
+        return pd.DataFrame(X_tagged)
 
 
 def build_model():
+    """
+        Returns a pipeline that applies FeatureUnion, CountVectorizer,
+        TfidfTransformer, StartingVerbExtractor,
+        and MultiOutputClassifier(XGBClassifier) 
+    """
     pipeline_xgb = Pipeline([
         ('features', FeatureUnion([
 
@@ -100,7 +139,7 @@ def build_model():
                 ('tfidf', TfidfTransformer(use_idf=True))
             ])),
 
-            ('text_len', TextLengthExtractor())
+            ('start_verb', StartingVerbExtractor())
         ])),
 
         ('clf', MultiOutputClassifier(XGBClassifier(
@@ -109,7 +148,7 @@ def build_model():
             colsample_bytree=0.4,
             subsample=0.8,
             n_estimators=100,
-            min_child_weight=7,
+            min_child_weight=1,
             gamma=5)))
     ])
 
@@ -117,6 +156,10 @@ def build_model():
 
 
 def display_results(y_test, y_pred, category_name):
+    """
+        Display f1 score, precision, recall and confusion_matrix
+        for each category of the test dataset
+    """
 
     clf_report = classification_report(y_test, y_pred)
     confusion_mat = confusion_matrix(y_test, y_pred)
@@ -132,6 +175,10 @@ def display_results(y_test, y_pred, category_name):
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    """
+       Evaluate model and display f1 score, precision, recall and
+       confusion_matrix for each category of the test dataset
+    """
 
     Y_pred = model.predict(X_test)
 
@@ -140,7 +187,9 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
-    """ Save model to a pickle file """
+    """
+        Save model to a pickle file
+    """
     dump(model, open(model_filepath, 'wb'))
 
 
