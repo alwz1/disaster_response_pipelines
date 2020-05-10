@@ -68,6 +68,7 @@ def tokenize_2(text):
 class StartingVerbExtractor(BaseEstimator, TransformerMixin):
 
     def starting_verb(self, text):
+        """ Return true if the first word is an appropriate verb or RT for retweet """
         sentence_list = nltk.sent_tokenize(text)
         for sentence in sentence_list:
             pos_tags = nltk.pos_tag(tokenize_2(sentence))
@@ -77,9 +78,11 @@ class StartingVerbExtractor(BaseEstimator, TransformerMixin):
         return False
 
     def fit(self, X, y=None):
+        """ Fit """
         return self
 
     def transform(self, X):
+        """ Transform """
         X_tagged = pd.Series(X).apply(self.starting_verb)
         return pd.DataFrame(X_tagged)
 
@@ -88,13 +91,16 @@ class StartingVerbExtractor(BaseEstimator, TransformerMixin):
 class TextLengthExtractor(BaseEstimator, TransformerMixin):
 
     def text_len_count(self, text):
+        """ Count the number of tokens """
         text_length = len(tokenize(text))
         return text_length
 
     def fit(self, x, y=None):
+        """ Fit """
         return self
 
     def transform(self, X):
+        """ Transform """
         X_text_len = pd.Series(X).apply(self.text_len_count)
         return pd.DataFrame(X_text_len)
 
@@ -228,6 +234,7 @@ def go():
 
 
 def main():
+    """ Run app on host='0.0.0.0' and port=3001 """
     app.run(host='0.0.0.0', port=3001, debug=True)
 
 
