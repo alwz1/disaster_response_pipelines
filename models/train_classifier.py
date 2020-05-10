@@ -12,6 +12,7 @@ import re
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.pipeline import FeatureUnion
+from sklearn.preprocessing import Normalizer
 from xgboost import XGBClassifier
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
@@ -26,8 +27,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
 nltk.download(['words', 'punkt', 'stopwords',
-               'averaged_perceptron_tagger',
-               'maxent_ne_chunker', 'wordnet'])
+               'averaged_perceptron_tagger', 'wordnet'])
 
 
 def load_data(database_filepath):
@@ -81,9 +81,12 @@ def tokenize(text):
     return clean_tokens
 
 
-# Add a customer transformer
+# Add two customer transformers
 
 def tokenize_2(text):
+    """
+        Tokenize the input text. This function is called in StartingVerbExtractor.
+    """
 
     url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
     detected_urls = re.findall(url_regex, text)
@@ -123,33 +126,53 @@ class StartingVerbExtractor(BaseEstimator, TransformerMixin):
         return pd.DataFrame(X_tagged)
 
 
+# Count the number of tokens
+class TextLengthExtractor(BaseEstimator, TransformerMixin):
+
+    def text_len_count(self, text):
+        text_length = len(tokenize(text))
+        return text_length
+
+    def fit(self, x, y=None):
+        return self
+
+    def transform(self, X):
+        X_text_len = pd.Series(X).apply(self.text_len_count)
+        return pd.DataFrame(X_text_len)
+
+
 def build_model():
     """
         Returns a pipeline that applies FeatureUnion, CountVectorizer,
         TfidfTransformer, StartingVerbExtractor,
-        and MultiOutputClassifier(XGBClassifier) 
+        and MultiOutputClassifier(XGBClassifier)
     """
     pipeline_xgb = Pipeline([
         ('features', FeatureUnion([
 
             ('text_pipeline', Pipeline([
                 ('vect', CountVectorizer(tokenizer=tokenize,
-                                         max_features=None,
-                                         max_df=1.0)),
+                                         max_features=6000,
+                                         max_df=0.75)),
                 ('tfidf', TfidfTransformer(use_idf=True))
             ])),
 
+            ('txt_length', TextLengthExtractor()),
             ('start_verb', StartingVerbExtractor())
+
         ])),
+
+        ('norm',  Normalizer()),
 
         ('clf', MultiOutputClassifier(XGBClassifier(
             max_depth=3,
-            learning_rate=0.1,
-            colsample_bytree=0.4,
+            learning_rate=0.2,
+            max_delta_step=2,
+            colsample_bytree=0.7,
+            colsample_bylevel=0.7,
             subsample=0.8,
-            n_estimators=100,
-            min_child_weight=1,
-            gamma=5)))
+            n_estimators=150,
+            tree_method='hist')))
     ])
 
     return pipeline_xgb
