@@ -18,6 +18,8 @@ from plotly.graph_objs import Bar
 
 from sqlalchemy import create_engine
 
+import plotly.express as px
+
 
 app = Flask(__name__)
 
@@ -51,6 +53,7 @@ def tokenize(text):
 
 
 def tokenize_2(text):
+    """ Tokenize input text. This function is called in StartingVerbExtractor. """
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
@@ -81,6 +84,21 @@ class StartingVerbExtractor(BaseEstimator, TransformerMixin):
         return pd.DataFrame(X_tagged)
 
 
+# Count the number of tokens
+class TextLengthExtractor(BaseEstimator, TransformerMixin):
+
+    def text_len_count(self, text):
+        text_length = len(tokenize(text))
+        return text_length
+
+    def fit(self, x, y=None):
+        return self
+
+    def transform(self, X):
+        X_text_len = pd.Series(X).apply(self.text_len_count)
+        return pd.DataFrame(X_text_len)
+
+
 # load data
 engine = create_engine('sqlite:///../data/DisasterResponse.db')
 df = pd.read_sql_table('message_category', engine)
@@ -100,12 +118,19 @@ def index():
     genre_names = list(genre_counts.index)
 
     category_names = df.iloc[:, 4:].columns
-    category_boolean = (df.iloc[:, 4:] != 0).sum().values
+    category_counts = (df.iloc[:, 4:]).sum(
+    ).sort_values(ascending=False).values
+
+    # Calculate message count by genre and related status
+    genre_related = df[df['related'] == 1].groupby('genre').count()[
+        'message']
+    genre_not_rel = df[df['related'] == 0].groupby('genre').count()[
+        'message']
 
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
-    graphs = [
 
+    graphs = [
+        # GRAPH 1 - genre graph
         {
             'data': [
                 Bar(
@@ -124,6 +149,54 @@ def index():
                 }
             }
         },
+        # GRAPH 2 - category graph
+        {
+            'data': [
+                Bar(
+                    x=category_names,
+                    y=category_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Categories',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Category",
+                    'tickangle': 35
+                }
+            }
+        },
+        # GRAPH 3 - category graph
+        {
+            'data': [
+                Bar(
+                    x=genre_names,
+                    y=genre_related,
+                    name='Related'
+                ),
+
+                Bar(
+                    x=genre_names,
+                    y=genre_not_rel,
+                    name='Not Related'
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Messages by Genre and Related Status',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Genre"
+                },
+                'barmode': 'stack'
+            }
+        }
+
 
     ]
 
