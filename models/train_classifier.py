@@ -104,6 +104,7 @@ def tokenize_2(text):
 class StartingVerbExtractor(BaseEstimator, TransformerMixin):
 
     def starting_verb(self, text):
+        """ return true if the first word is an appropriate verb or RT for retweet """
         # tokenize by sentences
         sentence_list = nltk.sent_tokenize(text)
 
@@ -119,9 +120,11 @@ class StartingVerbExtractor(BaseEstimator, TransformerMixin):
         return False
 
     def fit(self, x, y=None):
+        """ Fit """
         return self
 
     def transform(self, X):
+        """ Transform """
         X_tagged = pd.Series(X).apply(self.starting_verb)
         return pd.DataFrame(X_tagged)
 
@@ -130,13 +133,16 @@ class StartingVerbExtractor(BaseEstimator, TransformerMixin):
 class TextLengthExtractor(BaseEstimator, TransformerMixin):
 
     def text_len_count(self, text):
+        """ Count the number of tokens """
         text_length = len(tokenize(text))
         return text_length
 
     def fit(self, x, y=None):
+        """ Fit """
         return self
 
     def transform(self, X):
+        """ Transform """
         X_text_len = pd.Series(X).apply(self.text_len_count)
         return pd.DataFrame(X_text_len)
 
@@ -217,6 +223,7 @@ def save_model(model, model_filepath):
 
 
 def main():
+    """ Build, train, evaluate, and save trained model """
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
