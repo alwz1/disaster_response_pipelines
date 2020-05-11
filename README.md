@@ -16,15 +16,20 @@ python 3.7.4
 
 
 ### File Descriptions<a name="file_descriptions"></a>
-data  
+data
 * DisasterResponse.db
 * disaster_categories.csv
 * disaster_messages.csv
-* process_data.py
+* process_data.py : ETL pipeline
 
 models
 * classifier.pkl
-* train_classifier.py
+* train_classifier.py : ML pipeline
+
+app
+* templates
+  * go.html : flask template
+  * master.html : flask template
 
 
 LICENSE.txt: MIT License
