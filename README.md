@@ -33,6 +33,12 @@ app
   
 * run.py : flask main run file
 
+images : screen shots of web application
+
+ETL Pipeline Preparation.ipynb: ETL Pipeline Preparation Jupyter notebook
+
+ML Pipeline Preparation.ipynb: ML Pipeline Preparation Jupyter notebook
+
 
 LICENSE.txt: MIT License
 
