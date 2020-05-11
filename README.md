@@ -1,4 +1,4 @@
-# Udacity Disaster Response Pipelines Project
+# Udacity Disaster Response Project
 ### Table of Contents
 1. [Installations](#installations)
 2. [Project Motivation](#project_motivation)
