@@ -16,11 +16,16 @@ python 3.7.4
 
 
 ### File Descriptions<a name="file_descriptions"></a>
-data : 
+data  
 * DisasterResponse.db
 * disaster_categories.csv
 * disaster_messages.csv
 * process_data.py
+
+models
+* classifier.pkl
+* train_classifier.py
+
 
 LICENSE.txt: MIT License
 
