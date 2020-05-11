@@ -11,7 +11,18 @@
 
 ### Installations<a name="installations"></a>
 python 3.7.4
+* numpy
 * pandas
+* sqlalchemy
+* sqlite3
+* joblib
+* re
+* nltk
+* sklearn
+* xgboost
+* json
+* plotly
+* flask
 
 ### Project Motivation<a name="project_motivation"></a>
 
