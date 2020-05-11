@@ -16,6 +16,11 @@ python 3.7.4
 
 
 ### File Descriptions<a name="file_descriptions"></a>
+data : 
+* DisasterResponse.db
+* disaster_categories.csv
+* disaster_messages.csv
+* process_data.py
 
 LICENSE.txt: MIT License
 
