@@ -22,17 +22,17 @@ python 3.7.4
 data
 * disaster_categories.csv : categories dataset
 * disaster_messages.csv : message dataset
-* process_data.py : ETL pipeline
+* process_data.py : ETL pipeline script
 
 models
-* train_classifier.py : ML pipeline
+* train_classifier.py : ML pipeline script
 
 app
 * templates
   * go.html : flask template
   * master.html : flask template
   
-* run.py : flask main run file
+* run.py : flask main run script
 
 images : screen shots of web application
 
