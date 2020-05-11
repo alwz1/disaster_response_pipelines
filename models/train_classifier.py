@@ -13,8 +13,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.pipeline import FeatureUnion
 from sklearn.preprocessing import Normalizer
-from xgboost import XGBClassifier
 from sklearn.multioutput import MultiOutputClassifier
+from xgboost import XGBClassifier
+from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.metrics import confusion_matrix
@@ -153,7 +154,7 @@ def build_model():
         TfidfTransformer, StartingVerbExtractor,
         and MultiOutputClassifier(XGBClassifier)
     """
-    pipeline_xgb = Pipeline([
+    pipeline = Pipeline([
         ('features', FeatureUnion([
 
             ('text_pipeline', Pipeline([
@@ -171,17 +172,24 @@ def build_model():
         ('norm',  Normalizer()),
 
         ('clf', MultiOutputClassifier(XGBClassifier(
-            max_depth=3,
-            learning_rate=0.2,
-            max_delta_step=2,
-            colsample_bytree=0.7,
-            colsample_bylevel=0.7,
+            max_depth=4,
+            # learning_rate=0.2,
+            max_delta_step=3,
+            colsample_bytree=0.5,
+            colsample_bylevel=0.5,
             subsample=0.8,
-            n_estimators=150,
+            # n_estimators=150,
             tree_method='hist')))
     ])
 
-    return pipeline_xgb
+    parameters = {
+        'clf__estimator__learning_rate': [0.2, 0.5],
+        'clf__estimator__n_estimators': [100, 150]
+    }
+
+    cv = GridSearchCV(pipeline, param_grid=parameters, cv=2, n_jobs=-1)
+
+    return cv
 
 
 def display_results(y_test, y_pred, category_name):
