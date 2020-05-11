@@ -20,13 +20,11 @@ python 3.7.4
 
 ### File Descriptions<a name="file_descriptions"></a>
 data
-* DisasterResponse.db
-* disaster_categories.csv
-* disaster_messages.csv
+* disaster_categories.csv : categories dataset
+* disaster_messages.csv : message dataset
 * process_data.py : ETL pipeline
 
 models
-* classifier.pkl
 * train_classifier.py : ML pipeline
 
 app
