@@ -5,8 +5,9 @@
 1. [Installations](#installations)
 2. [Project Motivation](#project_motivation)
 3. [File Descriptions](#file_descriptions)
-4. [Results](#results)
-5. [Licensing, Authors, Acknowledgements](#licensing)
+4. [Instructions](#instructions)
+5. [Results](#results)
+6. [Licensing, Authors, Acknowledgements](#licensing)
 
 ### Installations<a name="installations"></a>
 Standard libraries installed with the Anaconda distribution.
@@ -44,7 +45,7 @@ ML Pipeline Preparation.ipynb: ML Pipeline Preparation Jupyter notebook
 
 LICENSE.txt: MIT License
 
-### Instructions:
+### Instructions<a name="instructions"></a>
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
