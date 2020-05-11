@@ -31,7 +31,7 @@ app
   * go.html : flask template
   * master.html : flask template
   
-* run.py
+* run.py : flask main run file
 
 
 LICENSE.txt: MIT License
