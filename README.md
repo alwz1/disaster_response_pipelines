@@ -88,20 +88,30 @@ Besides, there are 16045 missing values for 'original'.
 There are urls in the text messages, and they are replaced with 'urlplaceholder'. 
 The text messages are processed to make lower cases, remove puntuations, and stop words. 
 They are then tokenized and lemmatized. 
+The data is split into train and test datasets with 20% reserved for testing.
 
 The ML pipeline consists of CountVectorizer and TfidfTransformer as text_pipeline along with two custom transformers 
 TextLengthExtractor() which extracts text length and StartingVerbExtractor() which returns true if the first word is an appropriate verb or RT for retweet.
 The text_pipeline and the custom transformers need to be processed in parallel. FeatureUnion from sklearn is used to achieve this goal. 
 The rest of the ML pipeline includes a normalizer since the values for text lengths can be much larger than the values for other features,  and  XGBClassifier. 
-Hyperparameters tuning with grid search was also performed.
+Hyperparameters tuning with grid search on the training dataset was also performed.
+
+![](/images/Screen%20Shot%202020-05-12%20at%204.40.51%20PM.png)
+
+The overall accuracy of the model is about 95%. 
+However accuracy alone can be misleading since most of the classes are highly imbalance as can be seen in the category 'water', for example. 
+Reducing false negatives or increasing recall is important in indentifying those in needs of assistance during disaster events.
 
 #### App
 A web app is developed where an emergency worker can input a new message and get classification results in several categories.
 How to run the app can be found in the Instructions section.
 
 
+![MainPage_1](/images/Screen%20Shot%202020-05-10%20at%201.29.38%20PM.png)
 
+![MainPage_2](/images/Screen%20Shot%202020-05-10%20at%201.31.04%20PM.png)
 
+![MainPage_3](/images/Screen%20Shot%202020-05-10%20at%201.36.04%20PM.png)
 
 ### Licensing, Authors, Acknowledgements<a name="licensing"></a>
 MIT License
