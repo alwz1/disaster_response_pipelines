@@ -43,10 +43,10 @@ models
 
 app
 * templates
-  * go.html : flask template
-  * master.html : flask template
+  * go.html : classification result page of web app
+  * master.html : main page of web app
   
-* run.py : flask main run script
+* run.py : Flask file that runs app
 
 images : screen shots of web application
 
