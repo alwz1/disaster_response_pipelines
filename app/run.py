@@ -18,8 +18,6 @@ from plotly.graph_objs import Bar
 
 from sqlalchemy import create_engine
 
-import plotly.express as px
-
 
 app = Flask(__name__)
 
@@ -175,7 +173,7 @@ def index():
                 }
             }
         },
-        # GRAPH 3 - category graph
+        # GRAPH 3 - related status
         {
             'data': [
                 Bar(
