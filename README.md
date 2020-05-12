@@ -97,7 +97,7 @@ Hyperparameters tuning with grid search was also performed.
 
 #### App
 A web app is developed where an emergency worker can input a new message and get classification results in several categories.
-Instructions on how to run the app can be found in <a name="instructions"></a>
+How to run the app can be found in the Instructions section.
 
 
 
