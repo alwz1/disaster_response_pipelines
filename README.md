@@ -26,7 +26,7 @@ python 3.7.4
 
 ### Project Motivation<a name="project_motivation"></a>
 
-During disaster events a myraid of messages are sent either directly or through news and social media. It is important that relevant messages are sent to appropriate disaster relief agencies. In this project an ETL pipeline and a ML pipeline are developed to extract cleaned data and build a supervised learning model for an API that classifies disaster messages. 
+During disaster events a myraid of messages are sent either directly or through news and social media. It is important that relevant messages are sent to appropriate disaster relief agencies. In this project an ETL pipeline and a ML pipeline are developed to extract cleaned data and build a supervised machine learning model for an API that classifies disaster messages. 
 The disaster dataset is provided by Figure Eight and it contains real messages that were sent during disaster events. 
 A web app is also developed where an emergency worker can input a new message and get classification results in several categories.
 
