@@ -159,8 +159,9 @@ def build_model():
 
             ('text_pipeline', Pipeline([
                 ('vect', CountVectorizer(tokenizer=tokenize,
-                                         max_features=6000,
-                                         max_df=0.75)),
+                                         max_features=4000,
+                                         max_df=0.75
+                                         )),
                 ('tfidf', TfidfTransformer(use_idf=True))
             ])),
 
@@ -173,7 +174,7 @@ def build_model():
 
         ('clf', MultiOutputClassifier(XGBClassifier(
             max_depth=4,
-            # learning_rate=0.2,
+            learning_rate=0.2,
             max_delta_step=3,
             colsample_bytree=0.5,
             colsample_bylevel=0.5,
@@ -182,14 +183,7 @@ def build_model():
             tree_method='hist')))
     ])
 
-    parameters = {
-        'clf__estimator__learning_rate': [0.2, 0.5],
-        'clf__estimator__n_estimators': [100, 150]
-    }
-
-    cv = GridSearchCV(pipeline, param_grid=parameters, cv=2, n_jobs=-1)
-
-    return cv
+    return pipeline
 
 
 def display_results(y_test, y_pred, category_name):
@@ -244,6 +238,16 @@ def main():
 
         print('Training model...')
         model.fit(X_train, Y_train)
+
+        # improve model with hyperparameters tuning
+        parameters = {
+            'clf__estimator__n_estimators': [100, 150],
+        }
+
+        cv = GridSearchCV(
+            model, param_grid=parameters, cv=2, n_jobs=-1)
+
+        cv.fit(X_train, Y_train)
 
         print('Evaluating model...')
         evaluate_model(model, X_test, Y_test, category_names)
