@@ -115,4 +115,4 @@ How to run the app can be found in the Instructions section.
 ### Licensing, Authors, Acknowledgements<a name="licensing"></a>
 MIT License
 
-
+I thank [Figure Eight](https://appen.com) and [Udacity](https://www.udacity.com) for their support. 
