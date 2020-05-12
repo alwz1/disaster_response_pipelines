@@ -34,7 +34,7 @@ A web app is also developed where an emergency worker can input a new message an
 
 ### File Descriptions<a name="file_descriptions"></a>
 data
-* disaster_categories.csv : categories data to process
+* disaster_categories.csv : category data to process
 * disaster_messages.csv : message data to process
 * process_data.py : ETL pipeline script
 * DisasterResponse.db : database to save clean data to
