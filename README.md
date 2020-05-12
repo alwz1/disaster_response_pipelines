@@ -87,6 +87,8 @@ There are urls in the text messages, and they are replaced with 'urlplaceholder'
 The text messages are processed to make lower cases, remove puntuations, and stop words. 
 They are then tokenized and lemmatized. 
 
+The ML pipeline consists of CountVectorizer and TfidfTransformer as text_pipeline along with two custom transformers 
+TextLengthExtractor() which extracts text length and StartingVerbExtractor() which returns true if the first word is an appropriate verb or RT for retweet.
 
 ### Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
