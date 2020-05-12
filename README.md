@@ -98,6 +98,10 @@ Hyperparameters tuning with grid search on the training dataset was also perform
 
 ![](/images/Screen%20Shot%202020-05-12%20at%204.40.51%20PM.png)
 
+The overall accuracy of the model is about 95%. 
+However accuracy alone can be misleading since most of the classes are highly imbalance as can be seen in the category 'water', for example. 
+Reducing false negatives or increasing 
+
 #### App
 A web app is developed where an emergency worker can input a new message and get classification results in several categories.
 How to run the app can be found in the Instructions section.
