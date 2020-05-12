@@ -110,8 +110,7 @@ How to run the app can be found in the Instructions section.
 ![MainPage_1](/images/Screen%20Shot%202020-05-10%20at%201.29.38%20PM.png)
 
 ![MainPage_2](/images/Screen%20Shot%202020-05-10%20at%201.31.04%20PM.png)
-
-![MainPage_3](/images/Screen%20Shot%202020-05-10%20at%201.36.04%20PM.png)
+![MainPage_3](/images/Screen%20Shot%202020-05-12%20at%206.13.09%20PM.png)
 
 ### Licensing, Authors, Acknowledgements<a name="licensing"></a>
 MIT License
