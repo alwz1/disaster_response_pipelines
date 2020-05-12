@@ -100,7 +100,7 @@ Hyperparameters tuning with grid search on the training dataset was also perform
 
 The overall accuracy of the model is about 95%. 
 However accuracy alone can be misleading since most of the classes are highly imbalance as can be seen in the category 'water', for example. 
-Reducing false negatives or increasing 
+Reducing false negatives or increasing recall is important in indentifying those in needs of assistance during disaster events.
 
 #### App
 A web app is developed where an emergency worker can input a new message and get classification results in several categories.
