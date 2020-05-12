@@ -94,10 +94,15 @@ TextLengthExtractor() which extracts text length and StartingVerbExtractor() whi
 The text_pipeline and the custom transformers need to be processed in parallel. FeatureUnion from sklearn is used to achieve this goal. 
 The rest of the ML pipeline includes a normalizer since the values for text lengths can be much larger than the values for other features,  and  XGBClassifier. 
 Hyperparameters tuning with grid search was also performed.
-Instructions on how to run the app can be found
 
 #### App
 A web app is developed where an emergency worker can input a new message and get classification results in several categories.
+Instructions on how to run the app can be found
+
+
+
+
+
 ### Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
 
