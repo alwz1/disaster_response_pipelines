@@ -100,7 +100,7 @@ A web app is developed where an emergency worker can input a new message and get
 How to run the app can be found in the Instructions section.
 
 
-
+![GitHub Logo](/images/)
 
 
 ### Licensing, Authors, Acknowledgements<a name="licensing"></a>
