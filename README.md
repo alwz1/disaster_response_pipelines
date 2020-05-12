@@ -77,7 +77,7 @@ The datasets are merged into a dataframe on id column that is common for both.
 String type categories under a single column were split and expanded into 36 individual category columns, and converted into numeric value of either 0 or 1. 
 The duplicate 171 rows were also removed. 
 The resulting dataframe had 26215 rows and 40 columns.
-The cleaned dataset was then saved into an sqlite database. 
+The cleaned dataset was then saved into a sqlite database. 
 
 
 ### Licensing, Authors, Acknowledgements<a name="licensing"></a>
