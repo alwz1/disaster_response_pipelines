@@ -79,6 +79,14 @@ The duplicate 171 rows were also removed.
 The resulting dataframe had 26215 rows and 40 columns.
 The cleaned dataset was then saved into a sqlite database. 
 
+#### ML Pipeline
+
+Although there are features such as 'genre' and 'original', only 'message' was chosen as initial feature for this project.
+Besides, there are 16045 missing values for 'original'. 
+There are urls in the text messages, and they are replaced with 'urlplaceholder'. 
+The text messages are processed to make lower cases, remove puntuations, and stop words. 
+They are then tokenized and lemmatized. 
+
 
 ### Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
