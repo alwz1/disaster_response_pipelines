@@ -91,7 +91,9 @@ The ML pipeline consists of CountVectorizer and TfidfTransformer as text_pipelin
 TextLengthExtractor() which extracts text length and StartingVerbExtractor() which returns true if the first word is an appropriate verb or RT for retweet.
 The text_pipeline and the custom transformers need to be processed in parallel. FeatureUnion from sklearn is used to achieve this goal. 
 The rest of the ML pipeline includes a normalizer since the values for text lengths can be much larger than the values for other features,  and  XGBClassifier. 
-Hyperparameters tuning
+Hyperparameters tuning with grid search was performed in "ML Pipeline Preparation" Jupyter notebook. 
+
+
 ### Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
 
