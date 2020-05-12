@@ -100,8 +100,8 @@ A web app is developed where an emergency worker can input a new message and get
 How to run the app can be found in the Instructions section.
 
 
-![GitHub Logo](/images/Screen%20Shot%202020-05-10%20at%201.29.38%20PM.png)
-
+![MainPage_1](/images/Screen%20Shot%202020-05-10%20at%201.29.38%20PM.png)
+![MainPage_2](/images/
 
 ### Licensing, Authors, Acknowledgements<a name="licensing"></a>
 MIT License
