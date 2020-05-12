@@ -159,8 +159,8 @@ def build_model():
 
             ('text_pipeline', Pipeline([
                 ('vect', CountVectorizer(tokenizer=tokenize,
-                                         max_features=4000,
-                                         max_df=0.75
+                                         max_features=5000,
+                                         # max_df=0.75
                                          )),
                 ('tfidf', TfidfTransformer(use_idf=True))
             ])),
@@ -179,7 +179,7 @@ def build_model():
             colsample_bytree=0.5,
             colsample_bylevel=0.5,
             subsample=0.8,
-            # n_estimators=150,
+            n_estimators=150,
             tree_method='hist')))
     ])
 
@@ -241,7 +241,8 @@ def main():
 
         # improve model with hyperparameters tuning
         parameters = {
-            'clf__estimator__n_estimators': [100, 150],
+            'features__text_pipeline__vect__max_df': [0.6, 0.75],
+            # 'clf__estimator__n_estimators': [100, 150],
         }
 
         cv = GridSearchCV(
