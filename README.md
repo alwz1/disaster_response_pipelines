@@ -34,19 +34,22 @@ A web app is also developed where an emergency worker can input a new message an
 
 ### File Descriptions<a name="file_descriptions"></a>
 data
-* disaster_categories.csv : categories dataset
-* disaster_messages.csv : message dataset
+* disaster_categories.csv : category data to process
+* disaster_messages.csv : message data to process
 * process_data.py : ETL pipeline script
+* DisasterResponse.db : database to save clean data to
 
 models
 * train_classifier.py : ML pipeline script
+* classifier.pkl : saved model 
+
 
 app
 * templates
-  * go.html : flask template
-  * master.html : flask template
+  * go.html : classification result page of web app
+  * master.html : main page of web app
   
-* run.py : flask main run script
+* run.py : Flask file that runs app
 
 images : screen shots of web application
 
@@ -110,10 +113,9 @@ How to run the app can be found in the Instructions section.
 ![MainPage_1](/images/Screen%20Shot%202020-05-10%20at%201.29.38%20PM.png)
 
 ![MainPage_2](/images/Screen%20Shot%202020-05-10%20at%201.31.04%20PM.png)
-
-![MainPage_3](/images/Screen%20Shot%202020-05-10%20at%201.36.04%20PM.png)
+![MainPage_3](/images/Screen%20Shot%202020-05-12%20at%206.13.09%20PM.png)
 
 ### Licensing, Authors, Acknowledgements<a name="licensing"></a>
 MIT License
 
-
+I thank [Figure Eight](https://appen.com) and [Udacity](https://www.udacity.com) for their support. 
