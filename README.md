@@ -34,12 +34,15 @@ A web app is also developed where an emergency worker can input a new message an
 
 ### File Descriptions<a name="file_descriptions"></a>
 data
-* disaster_categories.csv : categories dataset
-* disaster_messages.csv : message dataset
+* disaster_categories.csv : categories data to process
+* disaster_messages.csv : message data to process
 * process_data.py : ETL pipeline script
+* DisasterResponse.db : database to save clean data to
 
 models
 * train_classifier.py : ML pipeline script
+* classifier.pkl : saved model 
+
 
 app
 * templates
