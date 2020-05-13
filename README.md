@@ -107,7 +107,7 @@ Reducing false negatives or increasing recall is important in indentifying those
 
 #### App
 A web app is developed where an emergency worker can input a new message and get classification results in several categories.
-How to run the app can be found in the Instructions section.
+How to run the app can be found in the Instructions section provided by [Udacity](https://www.udacity.com).
 
 
 ![MainPage_1](/images/Screen%20Shot%202020-05-10%20at%201.29.38%20PM.png)
