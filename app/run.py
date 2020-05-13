@@ -126,9 +126,9 @@ def index():
     ).sort_values(ascending=False).values
 
     # Calculate message count by genre and related status
-    genre_related = df[df['related'] == 1].groupby('genre').count()[
+    related = df[df['related'] == 1].groupby('genre').count()[
         'message']
-    genre_not_rel = df[df['related'] == 0].groupby('genre').count()[
+    not_related = df[df['related'] == 0].groupby('genre').count()[
         'message']
 
     # create visuals
@@ -178,13 +178,13 @@ def index():
             'data': [
                 Bar(
                     x=genre_names,
-                    y=genre_related,
+                    y=related,
                     name='Related'
                 ),
 
                 Bar(
                     x=genre_names,
-                    y=genre_not_rel,
+                    y=not_related,
                     name='Not Related'
                 )
             ],
